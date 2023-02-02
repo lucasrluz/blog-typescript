@@ -1,5 +1,6 @@
 import { error, success } from '../../util/response/response';
 import { validateName } from './validations/validateName';
+import { validateUsername } from './validations/validateUsername';
 
 export class User {
   public name: string;
@@ -29,6 +30,12 @@ export class User {
 
     if (validateNameResponse.isError()) {
       return error(validateNameResponse.value);
+    }
+
+    const validateUsernameResponse = validateUsername(username);
+
+    if (validateUsernameResponse.isError()) {
+      return error(validateUsernameResponse.value);
     }
 
     const user = new User(name, username, email, password);

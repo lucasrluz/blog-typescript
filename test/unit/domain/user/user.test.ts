@@ -66,4 +66,39 @@ describe('Tests do domínio usuário', () => {
       'O campo nome deve ter somente letras e pode conter espaços.',
     );
   });
+
+  it('Esprero que retorne um erro, dado um nome de usuário vazio', async () => {
+    const user = User.create('Name Test', '', 'email@test.com', 'passwordtest');
+
+    expect(user.isError()).toEqual(true);
+    expect(user.value).toEqual('O campo nome de usuário não pode estar vazio.');
+  });
+
+  it('Esprero que retorne um erro, dado um nome de usuário maior de 20 caracteres', async () => {
+    const user = User.create(
+      'Name Test',
+      'usernametestusernametest',
+      'email@test.com',
+      'passwordtest',
+    );
+
+    expect(user.isError()).toEqual(true);
+    expect(user.value).toEqual(
+      'O campo nome de usuário tem um tamanho máximo de 20 caracteres.',
+    );
+  });
+
+  it('Esprero que retorne um erro, dado um nome de usuário com um caractere inválido', async () => {
+    const user = User.create(
+      'Name Test',
+      'username_test',
+      'email@test.com',
+      'passwordtest',
+    );
+
+    expect(user.isError()).toEqual(true);
+    expect(user.value).toEqual(
+      'O campo nome de usuário pode ter somente letras e números.',
+    );
+  });
 });

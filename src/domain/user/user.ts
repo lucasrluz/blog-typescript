@@ -1,4 +1,5 @@
-import { success } from '../../util/response/response';
+import { error, success } from '../../util/response/response';
+import { validateName } from './validations/validateName';
 
 export class User {
   public name: string;
@@ -24,6 +25,12 @@ export class User {
     email: string,
     password: string,
   ) {
+    const validateNameResponse = validateName(name);
+
+    if (validateNameResponse.isError()) {
+      return error(validateNameResponse.value);
+    }
+
     const user = new User(name, username, email, password);
 
     return success(user);

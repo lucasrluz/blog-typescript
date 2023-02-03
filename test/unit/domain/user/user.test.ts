@@ -101,4 +101,32 @@ describe('Tests do domínio usuário', () => {
       'O campo nome de usuário pode ter somente letras e números.',
     );
   });
+
+  it('Esprero que retorne um erro, dado um e-mail com formato inválido', async () => {
+    const user = User.create(
+      'Name Test',
+      'usernametest',
+      'emailtest.com',
+      'passwordtest',
+    );
+
+    expect(user.isError()).toEqual(true);
+    expect(user.value).toEqual(
+      'O campo e-mail deve ter um formato de e-mail válido.',
+    );
+  });
+
+  it('Esprero que retorne um erro, dado um e-mail com formato inválido', async () => {
+    const user = User.create(
+      'Name Test',
+      'usernametest',
+      'email@testcom',
+      'passwordtest',
+    );
+
+    expect(user.isError()).toEqual(true);
+    expect(user.value).toEqual(
+      'O campo e-mail deve ter um formato de e-mail válido.',
+    );
+  });
 });
